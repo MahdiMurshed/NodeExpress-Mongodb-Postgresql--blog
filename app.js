@@ -2,17 +2,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const blogRoute = require("./routes/blogRoutes");
 const app = express();
-
-const dbURI =
-  "mongodb+srv://mahdi:mongomahdi@cluster0.5mpo9.mongodb.net/firstdb?retryWrites=true&w=majority";
-mongoose
-  .connect(dbURI)
-  .then((result) =>
-    app.listen(3000, (req, res) => {
-      console.log("DB connceted.Running at port 3000");
-    })
-  )
-  .catch((err) => console.log(err));
+const pool = require("./db");
+app.listen(3000);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
