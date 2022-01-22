@@ -9,35 +9,36 @@ const blog_index = (req, res) => {
   pool
     .query(sql)
     .then((result) => {
-      console.log(result.rows);
       res.render("index", { blogs: result.rows, title: "All blogs" });
     })
     .catch((err) => console.log("Error getting blogs" + err));
 };
 const blog_create_post = (req, res) => {
-  console.log(req.body);
-  const blog = new Blog(req.body);
   const { title, snippet, body } = req.body;
-
   const sql = "INSERT INTO blog(title,snippet,body) VALUES($1,$2,$3)";
   pool
     .query(sql, [title, snippet, body])
     .then((result) => {
-      console.log(result);
       res.redirect("/blogs");
     })
     .catch((err) => console.log("Error saving " + err));
 };
 const blog_details = (req, res) => {
-  Blog.findById(req.params.id)
+  const sql = `SELECT * FROM blog WHERE id=${req.params.id}`;
+  pool
+    .query(sql)
     .then((result) => {
-      res.render("details", { title: "Single blog", blog: result });
+      console.log(result);
+      res.render("details", { title: "Single blog", blog: result.rows[0] });
     })
     .catch((err) => console.log(err));
 };
 const blog_delete = (req, res) => {
-  Blog.findByIdAndDelete(req.params.id)
+  const sql = `DELETE FROM blog WHERE id=${req.params.id}`;
+  pool
+    .query(sql)
     .then((result) => {
+      console.log(result);
       res.json({ redirect: "/blogs" });
     })
     .catch((err) => console.log(err));

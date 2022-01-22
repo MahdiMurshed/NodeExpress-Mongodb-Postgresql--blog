@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+
 const express = require("express");
 const blogRoute = require("./routes/blogRoutes");
 const app = express();
-const pool = require("./db");
 app.listen(3000);
 
 app.set("view engine", "ejs");
@@ -10,6 +10,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/blogs", blogRoute);
+
 app.get("/", (req, res) => {
   res.redirect("/blogs");
 });
